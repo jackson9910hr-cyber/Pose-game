@@ -45,6 +45,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;fl
 .brand h1 span{color:var(--gold)}
 .brand .ko{font-family:var(--f-ko);font-size:clamp(18px,1.8vw,26px);color:var(--pumpkin)}
 .brand .sub{font-size:14px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.brand .sub b{color:var(--gold);font-weight:700}
 .sets{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .sets button{border:1px solid var(--line);background:transparent;padding:9px 14px;border-radius:999px;font-family:var(--f-display);font-weight:800;letter-spacing:.06em;font-size:15px}
 .sets button[aria-pressed="true"]{background:var(--gold);color:#22190a;border-color:var(--gold)}
@@ -134,7 +135,8 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
   .brand{gap:8px;justify-content:center;width:100%}
   .brand h1{font-size:22px}
   .brand .ko{font-size:16px}
-  .brand .sub{display:none}
+  .brand .sub{order:-1;width:100%;text-align:center;font-size:10.5px;letter-spacing:.1em}
+  .brand .sub span{display:none}
   .sets{width:100%;justify-content:center;gap:6px}
   .sets{display:grid;grid-template-columns:repeat(4,1fr)}
   .sets button{padding:7px 0;font-size:12px;letter-spacing:.02em}
@@ -159,7 +161,9 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
 @media (max-height:520px){
   .app{padding-block:6px}
   header{padding-bottom:6px;flex-wrap:nowrap}
-  .brand .ko,.brand .sub{display:none}
+  .brand .ko{display:none}
+  .brand .sub{order:0;width:auto;font-size:10px;letter-spacing:.06em}
+  .brand .sub span{display:none}
   .brand{width:auto}
   .brand h1{font-size:18px}
   .sets{width:auto}
@@ -192,7 +196,7 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
     <div class="brand">
       <h1>POSE <span>GAME</span></h1>
       <div class="ko">포즈 게임</div>
-      <div class="sub">Thanksgiving Festival · 2026</div>
+      <div class="sub"><b>Bujeon Church United Light Ministry</b><span> · Thanksgiving Festival 2026</span></div>
     </div>
     <div class="sets" role="group" aria-label="세트 선택">
       <button id="set-p" data-set="0" aria-pressed="true">PRACTICE</button>
