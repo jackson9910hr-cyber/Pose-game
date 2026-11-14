@@ -45,8 +45,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;fl
 .brand h1 span{color:var(--gold)}
 .brand .ko{font-family:var(--f-ko);font-size:clamp(18px,1.8vw,26px);color:var(--pumpkin)}
 .brand .sub{font-size:14px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
-.sets{display:flex;gap:8px}
-.sets button{border:1px solid var(--line);background:transparent;padding:10px 18px;border-radius:999px;font-family:var(--f-display);font-weight:800;letter-spacing:.06em;font-size:15px}
+.sets{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.sets button{border:1px solid var(--line);background:transparent;padding:9px 14px;border-radius:999px;font-family:var(--f-display);font-weight:800;letter-spacing:.06em;font-size:15px}
 .sets button[aria-pressed="true"]{background:var(--gold);color:#22190a;border-color:var(--gold)}
 
 /* stage */
@@ -135,7 +135,8 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
   .brand .ko{font-size:16px}
   .brand .sub{display:none}
   .sets{width:100%;justify-content:center;gap:6px}
-  .sets button{padding:7px 0;font-size:12px;letter-spacing:.02em;flex:1;max-width:96px}
+  .sets{display:grid;grid-template-columns:repeat(4,1fr)}
+  .sets button{padding:7px 0;font-size:12px;letter-spacing:.02em}
   .chip{font-size:12px;padding:4px 10px}
   .qno{font-size:15px}
   .en{font-size:clamp(30px,min(13vw,10vh),80px);line-height:1}
@@ -161,7 +162,8 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
   .brand{width:auto}
   .brand h1{font-size:18px}
   .sets{width:auto}
-  .sets button{padding:5px 10px;font-size:11px}
+  .sets{display:flex}
+  .sets button{padding:5px 8px;font-size:11px}
   footer{flex-direction:row;flex-wrap:nowrap;padding-top:6px;gap:8px}
   .dots{display:none}
   .ctrls{display:flex;width:100%;justify-content:center}
@@ -196,6 +198,9 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
       <button id="set-1" data-set="1" aria-pressed="false">SET 1</button>
       <button id="set-2" data-set="2" aria-pressed="false">SET 2</button>
       <button id="set-3" data-set="3" aria-pressed="false">SET 3</button>
+      <button id="set-4" data-set="4" aria-pressed="false">SET 4</button>
+      <button id="set-5" data-set="5" aria-pressed="false">SET 5</button>
+      <button id="set-6" data-set="6" aria-pressed="false">SET 6</button>
     </div>
   </header>
 
@@ -245,7 +250,7 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
       <button id="sound" aria-pressed="true">🔊 Sound On</button>
       <button id="full">⛶ Fullscreen</button>
     </div>
-    <div class="keys"><kbd>Space</kbd> Countdown · <kbd>←</kbd><kbd>→</kbd> Move · <kbd>F</kbd> Fullscreen · <kbd>0</kbd>–<kbd>3</kbd> Set</div>
+    <div class="keys"><kbd>Space</kbd> Countdown · <kbd>←</kbd><kbd>→</kbd> Move · <kbd>F</kbd> Fullscreen · <kbd>0</kbd>–<kbd>6</kbd> Set</div>
   </footer>
 </div>
 
@@ -258,7 +263,7 @@ const CAT = {
   bible:{en:"Bible",ko:"성경 인물",cls:"bible"},
   practice:{en:"Practice",ko:"연습 문제",cls:""}
 };
-const LABELS = ["PRACTICE","SET 1","SET 2","SET 3"];
+const LABELS = ["PRACTICE","SET 1","SET 2","SET 3","SET 4","SET 5","SET 6"];
 const SETS = [
   [
     {c:"practice",en:"Cat",ko:"고양이"},
@@ -268,36 +273,48 @@ const SETS = [
     {c:"animal",en:"Rabbit",ko:"토끼"},
     {c:"animal",en:"Butterfly",ko:"나비"},
     {c:"hero",en:"Spider-Man",ko:"스파이더맨"},
-    {c:"hero",en:"Statue of Liberty",ko:"자유의 여신상"},
     {c:"sport",en:"Bowling",ko:"볼링"},
-    {c:"sport",en:"Figure Skating",ko:"피겨 스케이팅"},
-    {c:"church",en:"Late for Service",ko:"예배에 지각한 사람"},
-    {c:"church",en:"Choir Member",ko:"성가대원"},
-    {c:"bible",en:"David",ko:"다윗",hen:"Slung a stone at Goliath",hko:"물맷돌로 골리앗을 쓰러뜨린 소년"},
-    {c:"bible",en:"Moses",ko:"모세",hen:"Parted the Red Sea",hko:"지팡이를 들어 홍해를 가른 사람"}
+    {c:"church",en:"Worship Team Drummer",ko:"찬양팀 드러머"},
+    {c:"bible",en:"David",ko:"다윗",hen:"Slung a stone at Goliath",hko:"물맷돌로 골리앗을 쓰러뜨린 소년"}
   ],
   [
     {c:"animal",en:"Penguin",ko:"펭귄"},
     {c:"animal",en:"Eagle",ko:"독수리"},
     {c:"hero",en:"Superman",ko:"슈퍼맨"},
-    {c:"hero",en:"Ultraman",ko:"울트라맨"},
     {c:"sport",en:"Baseball",ko:"야구"},
-    {c:"sport",en:"Archery",ko:"양궁"},
-    {c:"church",en:"The “Aha!” Moment in the Sermon",ko:"말씀 듣다 깨달음 얻은 사람"},
-    {c:"church",en:"Filled with the Spirit in Worship",ko:"찬양 중에 성령 충만한 사람"},
-    {c:"bible",en:"Zacchaeus",ko:"삭개오",hen:"Climbed a tree to see Jesus",hko:"나무 위에 올라가 예수님을 만난 키 작은 세리"},
-    {c:"bible",en:"Samson",ko:"삼손",hen:"Beat a lion, pushed down the pillars",hko:"사자를 이기고 기둥을 무너뜨린 장사"}
+    {c:"church",en:"Choir Member",ko:"성가대원"},
+    {c:"bible",en:"Moses",ko:"모세",hen:"Parted the Red Sea",hko:"지팡이를 들어 홍해를 가른 사람"}
   ],
   [
     {c:"animal",en:"Elephant",ko:"코끼리"},
     {c:"animal",en:"Frog",ko:"개구리"},
     {c:"hero",en:"Terminator",ko:"터미네이터"},
-    {c:"hero",en:"The Thinker",ko:"생각하는 사람"},
     {c:"sport",en:"Golf",ko:"골프"},
-    {c:"sport",en:"Weightlifting",ko:"역도"},
-    {c:"church",en:"Phone Rings During Service",ko:"예배 중에 휴대폰 울린 사람"},
+    {c:"church",en:"Parent Holding a Baby in Service",ko:"아기 안고 예배드리는 부모"},
+    {c:"bible",en:"Zacchaeus",ko:"삭개오",hen:"Climbed a tree to see Jesus",hko:"나무 위에 올라가 예수님을 만난 키 작은 세리"}
+  ],
+  [
+    {c:"animal",en:"Gorilla",ko:"고릴라"},
+    {c:"animal",en:"Kangaroo",ko:"캥거루"},
+    {c:"hero",en:"Statue of Liberty",ko:"자유의 여신상"},
+    {c:"sport",en:"Figure Skating",ko:"피겨 스케이팅"},
     {c:"church",en:"Parking Attendant",ko:"주차 안내하는 봉사자"},
-    {c:"bible",en:"Peter",ko:"베드로",hen:"Walked on water toward Jesus",hko:"예수님을 따라 물 위를 걸은 제자"},
+    {c:"bible",en:"Samson",ko:"삼손",hen:"Beat a lion, pushed down the pillars",hko:"사자를 이기고 기둥을 무너뜨린 장사"}
+  ],
+  [
+    {c:"animal",en:"Monkey",ko:"원숭이"},
+    {c:"animal",en:"Lion",ko:"사자"},
+    {c:"hero",en:"Ultraman",ko:"울트라맨"},
+    {c:"sport",en:"Archery",ko:"양궁"},
+    {c:"church",en:"Worship Team Guitarist",ko:"찬양팀 기타리스트"},
+    {c:"bible",en:"Peter",ko:"베드로",hen:"Walked on water toward Jesus",hko:"예수님을 따라 물 위를 걸은 제자"}
+  ],
+  [
+    {c:"animal",en:"Duck",ko:"오리"},
+    {c:"animal",en:"T-Rex",ko:"티라노사우루스"},
+    {c:"hero",en:"The Thinker",ko:"생각하는 사람"},
+    {c:"sport",en:"Weightlifting",ko:"역도"},
+    {c:"church",en:"Greeter Welcoming Newcomers",ko:"새가족을 반갑게 맞는 안내 봉사자"},
     {c:"bible",en:"Noah",ko:"노아",hen:"Built the ark with a hammer",hko:"망치로 방주를 지은 사람"}
   ]
 ];
@@ -446,7 +463,7 @@ document.addEventListener("keydown", e => {
   else if(e.key === "ArrowRight" || e.key === "PageDown") next();
   else if(e.key === "ArrowLeft" || e.key === "PageUp") prev();
   else if(e.key === "f" || e.key === "F") $("full").click();
-  else if(e.key >= "0" && e.key <= "3"){ set = +e.key; q = 0; render(); showCard("intro"); }
+  else if(e.key >= "0" && e.key <= "6"){ set = +e.key; q = 0; render(); showCard("intro"); }
 });
 
 render();
