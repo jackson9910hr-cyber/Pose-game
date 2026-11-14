@@ -84,6 +84,7 @@ main{position:relative;display:grid;place-items:center;padding-block:clamp(16px,
 .action .t{font-family:var(--f-display);font-weight:800;font-size:clamp(90px,17vw,320px);letter-spacing:.02em;color:#fff8ea;text-shadow:0 8px 0 rgba(0,0,0,.18);animation:slam .5s cubic-bezier(.2,1.6,.4,1)}
 .action .k{font-family:var(--f-ko);font-size:clamp(28px,3.4vw,60px);color:#fff1d6;margin-top:-1vh}
 .action .inner{text-align:center}
+body.locked footer button,body.locked .sets button{opacity:.35;cursor:not-allowed}
 @keyframes slam{0%{transform:scale(2.2);opacity:0}100%{transform:scale(1);opacity:1}}
 
 /* interstitial cards (set intro / set done) */
@@ -250,7 +251,7 @@ main{min-height:0;overflow:hidden;padding-block:clamp(8px,2vh,40px)}
       <button id="sound" aria-pressed="true">🔊 Sound On</button>
       <button id="full">⛶ Fullscreen</button>
     </div>
-    <div class="keys"><kbd>Space</kbd> Countdown · <kbd>←</kbd><kbd>→</kbd> Move · <kbd>F</kbd> Fullscreen · <kbd>0</kbd>–<kbd>6</kbd> Set</div>
+    <div class="keys"><kbd>Enter</kbd> Countdown · <kbd>Space</kbd> Next · <kbd>←</kbd><kbd>→</kbd> Move · <kbd>F</kbd> Fullscreen · <kbd>0</kbd>–<kbd>6</kbd> Set</div>
   </footer>
 </div>
 
@@ -379,6 +380,7 @@ function startCount(){
   if(!$("card").hidden) return;
   stopCount();
   running = true;
+  document.body.classList.add("locked");
   $("countlay").hidden = false;
   let n = 5;
   const tick = () => {
@@ -388,6 +390,7 @@ function startCount(){
       $("action").hidden = false;
       beep(660,.18,"square",.22); setTimeout(()=>beep(990,.5,"square",.22),160);
       running = false;
+      document.body.classList.remove("locked");
       return;
     }
     const num = $("num");
@@ -455,8 +458,20 @@ $("full").onclick = () => {
     else document.documentElement.requestFullscreen().catch(()=>{});
   }catch(e){}
 };
+// While 5-4-3-2-1 runs, every button and key is ignored so the count can't restart or stop.
+document.addEventListener("click", e => {
+  if(running && e.target.closest("button")){ e.preventDefault(); e.stopImmediatePropagation(); }
+}, true);
+// Buttons don't keep keyboard focus, so Space never re-presses the last clicked button.
+document.addEventListener("mousedown", e => { if(e.target.closest("button")) e.preventDefault(); });
+document.addEventListener("keyup", e => { if(e.key === " ") e.preventDefault(); });
 document.addEventListener("keydown", e => {
-  if(e.key === " " || e.key === "Enter"){
+  if(running){ e.preventDefault(); return; }
+  if(e.key === " "){
+    e.preventDefault();
+    next();
+  }
+  else if(e.key === "Enter"){
     e.preventDefault();
     if(!$("card").hidden) $("cardBtn").click(); else startCount();
   }
